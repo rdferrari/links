@@ -11,13 +11,14 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  addNumbers(a, b) {
-    console.log("addNumbers is running");
-
-    if (typeof a === "number" && typeof b === "number") {
-      return a + b;
-    } else {
-      throw new Meteor.Error("Not a number", "Number required");
+  "links.insert"(url) {
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
     }
+
+    Links.insert({
+      url,
+      userId: this.userId
+    });
   }
 });

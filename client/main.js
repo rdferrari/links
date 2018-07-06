@@ -10,8 +10,5 @@ Tracker.autorun(() => {
 });
 
 Meteor.startup(() => {
-  Meteor.call("addNumbers", 4, 11, (err, res) => {
-    console.log("Sum numbers", err, res);
-  });
   render(routes, document.getElementById("app"));
 });
