@@ -4,14 +4,13 @@ import LinksList from "./LinksList";
 import PrivateHeader from "./PrivateHeader";
 import AddLink from "./AddLink";
 
-export default class Link extends React.Component {
-  render() {
-    return (
-      <div>
-        <PrivateHeader title="My Links" />
-        <LinksList />
-        <AddLink />
-      </div>
-    );
-  }
-}
+// Stateless React Component
+export default () => {
+  return (
+    <div>
+      <PrivateHeader title="My new Links" />
+      <LinksList />
+      <AddLink />
+    </div>
+  );
+};
