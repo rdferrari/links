@@ -11,8 +11,8 @@ export default () => {
     <div>
       <PrivateHeader title="My new Links" />
       <LinksListFilter />
-      <LinksList />
       <AddLink />
+      <LinksList />
     </div>
   );
 };
