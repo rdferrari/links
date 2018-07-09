@@ -68,6 +68,7 @@ Meteor.methods({
         min: 1
       }
     }).validate({ _id });
+
     Links.update(
       { _id },
       {
