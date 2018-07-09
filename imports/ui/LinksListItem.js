@@ -2,18 +2,32 @@ import React from "react";
 import PropTypes from "prop-types";
 import Clipboard from "clipboard";
 
+// setTimeout(() => 'first argument', 2000)
+
 export default class LinksListItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      justCopied: false
+    };
+  }
+
   componentDidMount() {
     this.clipboard = new Clipboard(this.refs.copy);
 
     this.clipboard
       .on("success", () => {
-        alert("Worked");
+        this.setState({ justCopied: true });
+
+        setTimeout(() => {
+          this.setState({ justCopied: false });
+        }, 1000);
       })
       .on("error", () => {
         alert("Ops");
       });
   }
+
   componentWillUnmount() {
     this.clipboard.destroy();
   }
@@ -23,7 +37,7 @@ export default class LinksListItem extends React.Component {
         <p>{this.props.url}</p>
         <p>{this.props.shortUrl}</p>
         <button ref="copy" data-clipboard-text={this.props.shortUrl}>
-          Copy
+          {this.state.justCopied ? "Copied" : "Copy"}
         </button>
       </div>
     );
