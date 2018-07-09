@@ -9,7 +9,8 @@ export default class AddLink extends React.Component {
     super(props);
     this.state = {
       url: "",
-      isOpen: false
+      isOpen: false,
+      error: ""
     };
   }
   onSubmit(e) {
@@ -20,21 +21,25 @@ export default class AddLink extends React.Component {
 
     e.preventDefault();
     // if there is a url imput
-    if (url) {
-      Meteor.call("links.insert", url, (err, res) => {
-        if (!err) {
-          this.setState({ url: "", isOpen: false });
-        }
-      });
-      // insert the url value
-      // Links.insert({ url, userId: Meteor.userId() });
-      // then clear the value
-    }
+    Meteor.call("links.insert", url, (err, res) => {
+      if (!err) {
+        this.setState({ url: "", isOpen: false, error: "" });
+        this.handleModalClose();
+      } else {
+        this.setState({ error: err.reason });
+      }
+    });
+    // insert the url value
+    // Links.insert({ url, userId: Meteor.userId() });
+    // then clear the value
   }
   onChange(e) {
     this.setState({
       url: e.target.value
     });
+  }
+  handleModalClose() {
+    this.setState({ isOpen: false, url: "", error: "" });
   }
   render() {
     return (
@@ -46,20 +51,22 @@ export default class AddLink extends React.Component {
           isOpen={this.state.isOpen}
           contentLabel="Add link"
           ariaHideApp={false}
+          onAfterOpen={() => this.refs.url.focus()}
+          onRequestClose={this.handleModalClose.bind(this)}
         >
-          <p>Add Link</p>
+          <h1>Add Link</h1>
+          {this.state.error ? <p>{this.state.error}</p> : undefined}
           <form onSubmit={this.onSubmit.bind(this)}>
             <input
               type="text"
               placeholder="URL"
+              ref="url"
               value={this.state.url}
               onChange={this.onChange.bind(this)}
             />
             <button>Add Link</button>
           </form>
-          <button onClick={() => this.setState({ isOpen: false, url: "" })}>
-            Cancel
-          </button>
+          <button onClick={this.handleModalClose.bind(this)}>Cancel</button>
         </Modal>
       </div>
     );
