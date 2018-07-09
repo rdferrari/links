@@ -7,7 +7,7 @@ export default class AddLink extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      url: "Hey"
+      url: ""
     };
   }
   onSubmit(e) {
